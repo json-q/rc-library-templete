@@ -1,0 +1,5 @@
+{
+  "extends": "rclt-tsconfig/react-library.json",
+  "compilerOptions": { "emitDeclarationOnly": true }, // 只生成声明文件
+  "include": ["src"]
+}

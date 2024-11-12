@@ -1,0 +1,7 @@
+{
+  "extends": "rclt-tsconfig/base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["packages/**/*.tsx", "packages/**/*.ts"]
+}

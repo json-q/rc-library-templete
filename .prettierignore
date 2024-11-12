@@ -1,0 +1,12 @@
+**/dist/*
+**/es/*
+**/lib/*
+
+**/.local
+**/node_modules/**
+
+**/*.svg
+**/*.sh
+
+.eslintcache
+.stylelintcache

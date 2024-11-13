@@ -1,0 +1,42 @@
+@import './token.less';
+
+@btn-prefix-cls: ~'@{prefix}-btn';
+
+.@{btn-prefix-cls} {
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: @btn-default-font-size;
+  font-weight: @btn-font-weight;
+  line-height: @line-height-base;
+  white-space: nowrap;
+  appearance: none;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 4px;
+}
+
+.btn-type(@type) {
+  .@{btn-prefix-cls}-@{type} {
+    color: ~'@{btn-@{type}-color-text}';
+    background-color: ~'@{btn-@{type}-color-bg}';
+    border: @btn-size-default-border-width ~'@{btn-@{type}-border-style}' ~'@{btn-@{type}-border-color}';
+  }
+}
+
+.btn-size(@size) {
+  .@{btn-prefix-cls}-@{size} {
+    height: ~'@{btn-size-@{size}-height}';
+    padding: 0 ~'@{btn-size-@{size}-padding-horizontal}';
+    font-size: ~'@{btn-size-@{size}-font-size}';
+  }
+}
+
+.btn-type(default);
+.btn-type(primary);
+.btn-type(danger);
+
+.btn-size(default);
+.btn-size(small);
+.btn-size(large);

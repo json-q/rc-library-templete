@@ -35,6 +35,7 @@
     "postcss-less": "^6.0.0",
     "prettier": "^3.3.3",
     "rclt-tsconfig": "workspace:*",
+    "rimraf": "^6.0.1",
     "stylelint": "^16.10.0",
     "stylelint-config-recess-order": "^5.1.1",
     "stylelint-config-recommended": "^14.0.1",

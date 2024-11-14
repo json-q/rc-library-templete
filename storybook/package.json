@@ -1,7 +1,7 @@
 {
-  "name": "storybook",
+  "name": "rclt-storybook",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "clean": "rimraf .turbo node_modules storybook-static"
   },
   "dependencies": {
     "rclt-components": "workspace:^",

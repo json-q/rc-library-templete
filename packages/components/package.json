@@ -5,10 +5,30 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
   "scripts": {
+    "dev": "gulp watch",
+    "build": "npm run clean:build && npm run build:types && gulp && npm run build:dist",
     "build:types": "tsc -p tsconfig.json --outDir es  && cpr es lib",
-    "clean:build": "rimraf lib es dist",
-    "build": "npm run clean:build && npm run build:types && gulp"
+    "build:dist": "webpack --config ./webpack/webpack.dev.js && webpack --config ./webpack/webpack.prod.js",
+    "clean:build": "rimraf lib es dist"
+  },
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
+  "exports": {
+    ".": {
+      "types": "./es/index.d.ts",
+      "require": "./lib/index.js",
+      "import": "./es/index.js"
+    },
+    "./es/*": "./es/*",
+    "./lib/*": "./lib/*",
+    "./dist/*": "./dist/*"
   },
   "sideEffects": [
     "dist/*",
@@ -29,19 +49,31 @@
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
     "@babel/preset-typescript": "^7.26.0",
+    "@types/case-sensitive-paths-webpack-plugin": "^2.1.9",
     "@types/gulp": "^4.0.17",
     "@types/gulp-autoprefixer": "^0.0.37",
     "@types/gulp-babel": "^6.1.33",
+    "@types/gulp-concat": "^0.0.37",
     "@types/gulp-less": "^0.0.36",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "babel-loader": "^9.2.1",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "clsx": "^2.1.1",
     "cpr": "^3.0.1",
     "gulp": "^5.0.0",
     "gulp-autoprefixer": "^8",
     "gulp-babel": "^8.0.0",
+    "gulp-cleaner-css": "^4.3.2",
+    "gulp-concat": "^2.6.1",
     "gulp-less": "^5.0.0",
     "rclt-tsconfig": "workspace:^",
-    "through2": "^4.0.2"
+    "terser-webpack-plugin": "^5.3.10",
+    "through2": "^4.0.2",
+    "ts-loader": "^9.5.1",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^6.0.1",
+    "webpackbar": "^7.0.0"
   }
 }

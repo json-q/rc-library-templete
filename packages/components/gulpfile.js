@@ -3,6 +3,8 @@ const babel = require('gulp-babel');
 const less = require('gulp-less');
 const autoprefixer = require('gulp-autoprefixer');
 const through2 = require('through2');
+const concat = require('gulp-concat');
+const cleanCSS = require('gulp-cleaner-css');
 
 const paths = {
   dest: {
@@ -77,7 +79,12 @@ function less2css() {
     .pipe(less()) // 编译 less文件
     .pipe(autoprefixer()) // 根据browserslistrc增加前缀
     .pipe(gulp.dest(paths.dest.lib))
-    .pipe(gulp.dest(paths.dest.esm));
+    .pipe(gulp.dest(paths.dest.esm))
+    .pipe(concat('rclt.css'))
+    .pipe(gulp.dest(paths.dest.dist))
+    .pipe(cleanCSS()) // 压缩 CSS
+    .pipe(concat('rclt.min.css'))
+    .pipe(gulp.dest(paths.dest.dist)); // 输出压缩版到 dist
 }
 
 /**
@@ -97,6 +104,12 @@ function cssInjection(content) {
 // 并行任务 后续加入样式处理 可以并行处理  gulp.parallel(...)
 const build = gulp.parallel(gulp.series(compileCJS, compileESM), copyLess, less2css);
 
+// 监视 src 目录下的文件变化
+function watchFiles() {
+  gulp.watch('src/**/*', build);
+}
+
+exports.watch = watchFiles;
 exports.build = build;
 
 exports.default = build;

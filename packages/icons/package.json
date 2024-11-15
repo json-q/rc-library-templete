@@ -2,11 +2,26 @@
   "name": "rclt-icons",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "jsonq",
+  "license": "MIT",
+  "scripts": {
+    "gen:icon": "tsx  ./scripts/transSvgToComponent"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/react": "^18.3.12",
+    "camelcase": "^8.0.0",
+    "clsx": "^2.1.1",
+    "decamelize": "^6.0.0",
+    "fs-extra": "^11.2.0",
+    "rclt-tsconfig": "workspace:^",
+    "svgo": "^3.3.2",
+    "tsx": "^4.19.2"
+  }
 }

@@ -1,0 +1,9 @@
+{
+  "extends": "rclt-tsconfig/react-library",
+  "compilerOptions": {
+    "target": "ES2016",
+    "lib": ["ES2016"],
+    "module": "ES2020",
+    "noEmit": true
+  }
+}

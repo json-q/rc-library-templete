@@ -6,7 +6,7 @@
   "author": "jsonq",
   "license": "MIT",
   "scripts": {
-    "gen:icon": "tsx  ./scripts/transSvgToComponent"
+    "gen:icon": "tsx  ./scripts/genIcon"
   },
   "peerDependencies": {
     "react": ">=16.8.0"

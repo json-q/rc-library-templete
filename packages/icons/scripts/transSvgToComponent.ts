@@ -1,17 +1,27 @@
-import { fileURLToPath } from 'node:url';
 import { basename, resolve } from 'node:path';
 import fs from 'fs-extra';
 import { Config, transform } from '@svgr/core';
-import { optimize } from 'svgo';
+import { optimize, type PluginConfig } from 'svgo';
 import camelCase from 'camelcase';
-import decamelize from 'decamelize';
 import prettier from 'prettier';
 import prettierConfig from '../../../.prettierrc.cjs';
 
-const entryDir = fileURLToPath(new URL('../src/svgs', import.meta.url));
-const outDir = fileURLToPath(new URL('../src/icons', import.meta.url));
+type BuildOption = {
+  /** Svg 源文件目录 */
+  entryDir: string;
+  /** Icon 输出文件目录 */
+  outDir: string;
+  /** Icon 组件名前缀 */
+  prefix?: string;
+  /** Icon 组件名后缀 */
+  suffix?: string;
+  svgoPlugins?: PluginConfig[];
+  svgrConfig?: Config;
+};
 
-const transSvgToComponent = async () => {
+const transSvgToComponent = async (options: BuildOption) => {
+  const { entryDir, outDir, prefix = '', suffix = '', svgoPlugins = [], svgrConfig = {} } = options;
+
   // 移除并重新创建目录
   if (fs.existsSync(outDir)) {
     fs.rmSync(outDir, { recursive: true });
@@ -27,30 +37,23 @@ const transSvgToComponent = async () => {
     .map(async (file) => {
       try {
         const svgFileName = basename(file, '.svg'); // 只取文件名
-        const componentName = `${camelCase(svgFileName, { pascalCase: true })}`; // 转换成驼峰命名
+        const componentName = `${prefix}${camelCase(svgFileName, { pascalCase: true })}${suffix}`;
         const reactFileName = `${componentName}.tsx`;
         const svgContent = fs.readFileSync(resolve(entryDir, file), 'utf-8');
+
         const svgProps: Record<string, string> = {
           focusable: '{false}', // react focusable={false}
           'aria-hidden': '{true}',
         };
-        const result = optimize(svgContent, {
-          plugins: [
-            {
-              name: 'convertColors',
-              params: { currentColor: /^(?!url|none)./ },
-            },
-            'removeDimensions',
-          ],
-        });
+        const result = optimize(svgContent, { plugins: svgoPlugins });
+
         const jsxCode = await transform(
           result.data,
           {
             plugins: ['@svgr/plugin-jsx'],
-            typescript: true,
             icon: true,
             svgProps,
-            template: customTemplate,
+            ...svgrConfig,
           },
           { componentName },
         );
@@ -63,6 +66,7 @@ const transSvgToComponent = async () => {
         });
 
         fs.writeFileSync(resolve(outDir, reactFileName), formattedCode);
+
         return {
           fileName: reactFileName,
           componentName,
@@ -83,27 +87,4 @@ const transSvgToComponent = async () => {
   fs.writeFileSync(resolve(outDir, indexFileName), indexFileContent, 'utf-8');
 };
 
-const customTemplate: Config['template'] = (variables, context) => {
-  const { componentName, imports, interfaces, jsx, props } = variables;
-  const { tpl } = context;
-
-  return tpl`${imports}
-  import { convertIcon } from '../components/Icon';
-
-  ${interfaces}
-  function ${componentName}(${props}) {
-    return ${jsx};
-  }
-
-  const IconComponent = convertIcon(${componentName}, '${getOriginalSvgFileName(componentName)}');
-
-  export default IconComponent;
-    `;
-};
-
-function getOriginalSvgFileName(componentName: string) {
-  const originalFileName = decamelize(componentName, { separator: '-' });
-  return originalFileName;
-}
-
-transSvgToComponent();
+export default transSvgToComponent;

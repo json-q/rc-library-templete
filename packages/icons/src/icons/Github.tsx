@@ -11,8 +11,8 @@ function Github(props: SVGProps<SVGSVGElement>) {
       strokeWidth={4}
       width="1em"
       height="1em"
-      focusable={false}
-      aria-hidden={true}
+      focusable="false"
+      aria-hidden="true"
       {...props}
     >
       <path

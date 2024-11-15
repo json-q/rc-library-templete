@@ -11,8 +11,8 @@ function ArrowDown(props: SVGProps<SVGSVGElement>) {
       strokeWidth={4}
       width="1em"
       height="1em"
-      focusable={false}
-      aria-hidden={true}
+      focusable="false"
+      aria-hidden="true"
       {...props}
     >
       <path d="M11.2695 27.7279L23.9975 40.4558L36.7254 27.7279M23.9995 5V39.2955" strokeLinecap="butt" />

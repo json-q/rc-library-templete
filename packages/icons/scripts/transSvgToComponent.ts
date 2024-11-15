@@ -42,8 +42,8 @@ const transSvgToComponent = async (options: BuildOption) => {
         const svgContent = fs.readFileSync(resolve(entryDir, file), 'utf-8');
 
         const svgProps: Record<string, string> = {
-          focusable: '{false}', // react focusable={false}
-          'aria-hidden': '{true}',
+          focusable: 'false', // react focusable={false}
+          'aria-hidden': 'true',
         };
         const result = optimize(svgContent, { plugins: svgoPlugins });
 

@@ -17,7 +17,7 @@ export interface IconProps extends DetailedHTMLProps<HTMLAttributes<HTMLSpanElem
 const Icon = React.forwardRef<SVGSVGElement, React.PropsWithChildren<IconProps>>((props, ref) => {
   const { svg, spin = false, rotate, style, className, type, size = 'default', ...restProps } = props;
   const ctx = useContext(IconContext);
-  const prefixCls = props.prefixCls || ctx.prefixCls || 'jw';
+  const prefixCls = props.prefixCls || ctx.prefixCls || 'rclt';
 
   const classes = clsx(
     `${prefixCls}-icon`,
